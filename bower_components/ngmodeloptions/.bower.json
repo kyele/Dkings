@@ -1,0 +1,27 @@
+{
+  "name": "ngModelOptions",
+  "version": "1.0.1",
+  "main": "ngModelOptions.js",
+  "homepage": "https://github.com/fergaldoyle/modelOptions",
+  "authors": [
+    "Fergal Doyle",
+    "bitliner <giovanni.gaglione@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "1.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.0.1",
+    "commit": "5fd8c23ddeca9b85622cc22a835b34383c0116b2"
+  },
+  "_source": "git://github.com/fergaldoyle/modelOptions.git",
+  "_target": "*",
+  "_originalSource": "ngmodeloptions"
+}

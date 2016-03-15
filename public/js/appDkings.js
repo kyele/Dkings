@@ -13,7 +13,10 @@ angular.module( 'appDkings' ,
 
             cfpLoadingBarProvider.latencyThreshold = 500;
             //$locationProvider.html5Mode(true);
-            $urlRouterProvider.otherwise('/index.html');
+            $urlRouterProvider
+            .when( '/' , '/index.html' )
+            .when( '/cms' , '/cms/inicio' )
+            .otherwise('/index.html');
             $stateProvider
             .state('pagina' , {
                 url:            '/',
@@ -49,14 +52,25 @@ angular.module( 'appDkings' ,
                     templateUrl:    'public/views/pagina/contacto.html',
                     controller:     'mainCtrl',
                 })
-            .state('cms' , {
-                url:            '/cms',
-                templateUrl:    'public/views/cms/cms.html',
+            .state('login' , {
+                url:                '/login',
+                templateUrl:        'public/views/login.html',
+                controller :        'loginCtrl',
+                controllerAs:       'login',
             })
+            .state('cms' , {
+                url:                '/cms',
+                templateUrl:        'public/views/cms/cms.html',
+            })
+                .state('home' , {
+                    parent:         'cms',
+                    url:            '/inicio',
+                    templateUrl:    'public/views/cms/inicio.html'
+                })
 
     }
 ])
-.run([
+/*.run([
     '$location' , '$rootScope' , '$state' , 'cfpLoadingBar' ,
     function( $location , $rootScope, $state , cfpLoadingBar ) {
     'use strict';
@@ -87,13 +101,78 @@ angular.module( 'appDkings' ,
         $rootScope.rendering = true;
     });
 }]);
+*/
+.run([
+    '$rootScope' , '$location' , 'authUsers' , '$state' , 'sesionesControl',
+    function( $rootScope , $location , authUsers , $state , sesionesControl ){
+
+        'use strict';
+        $rootScope.$state = $state;
+        var cacheSession        = function( email , id_empleado ) {
+            sesionesControl.set( "userLogin" , true);
+            sesionesControl.set( "email" , email );
+            sesionesControl.set( "id" , id_empleado );
+        };
+        var unCacheSession      = function( ) {
+            sesionesControl.unset( "userLogin" );
+            sesionesControl.unset( "email" );
+        };
+        $rootScope.$on( '$stateChangeStart' , function( event, toState, toParams, from, fromParams ) {
+            if( authUsers.isLoggedIn( )  != null ) {
+                if( toState.name == 'login' ) {
+                    event.preventDefault();
+                    $state.go( 'home' );
+                } else {
+                    authUsers.verifica(
+                        function( data ) {
+                            if( data != null ){
+                                    cacheSession( data.Email , data.IDEmpleado );
+                            } else {
+                                unCacheSession();
+                                $state.go( 'login' );
+                            }
+                        }, function( data ) {
+                            unCacheSession();
+                            $rootScope.intento = true;
+                            $state.go( 'login' );
+                        }
+                    );
+                }
+            } else {
+                if( typeof $rootScope.intento == 'undefined' ) {
+                    event.preventDefault();
+                    $rootScope.intento = true;
+                    authUsers.verifica(
+                        function( data ) {
+                            if( data != null ) {
+                                cacheSession( data.Email , data.IDEmpleado );
+                                if( toState.name != 'login' ) {
+                                    $state.go( toState.name , toParams );
+                                } else {
+                                    $state.go( 'home' );
+                                }
+                            } else {
+                                unCacheSession();
+                                $state.go( 'login' );
+                            }
+                        }, function( data ) {
+                            $state.go( 'login' );
+                        }
+                    );
+                } else if( toState.name != 'login' ) {
+                    event.preventDefault();
+                    $state.go( 'login' );
+                }
+            }
+        });
+    }
+]);
 
 angular.module( 'appDkings' )
     .controller( 'mainCtrl' , mainCtrl )
     mainCtrl.$inject = []
 function mainCtrl() {
     'use strict',
-    console.log()
     //#main-slider
     $(function(){
         $('#main-slider.carousel').carousel({
@@ -157,201 +236,3 @@ function mainCtrl() {
         social_tools: false
     });
 }
-/*angular.module( 'appPlaya' )
-    .controller( 'ventas' , ventas )
-    ventas.$inject = [ '$scope' ]
-function ventas( $scope ) {
-    'use strict';
-    $scope.imagenes_ventas = [
-        {
-            nombre: "Ventas 1",
-            url:    "images/venta/1.jpg",
-        },
-        {
-            nombre: "Ventas 2",
-            url:    "images/venta/2.jpg",
-        },
-        {
-            nombre: "Ventas 3",
-            url:    "images/venta/3.jpg",
-        },
-        {
-            nombre: "Ventas 4",
-            url:    "images/venta/4.jpg",
-        },
-        {
-            nombre: "Ventas 5",
-            url:    "images/venta/5.jpg",
-        }
-    ];
-    $scope.imagenes = $scope.imagenes_ventas;
-    // finally, initialize photobox on all retrieved images
-    $('#gallery').photobox('a', { thumbs:true, loop:false }, callback);
-    // using setTimeout to make sure all images were in the DOM, before the history.load() function is looking them up to match the url hash
-    setTimeout(window._photobox.history.load, 2000);
-    function callback(){
-        console.log('callback for loaded content:', this);
-    };
-};
-
-angular.module( 'appPlaya' )
-.controller( 'galeria' , galeria )
-
-galeria.$inject = [ '$scope' ]
-
-function galeria( $scope ) {
-    'use strict';
-    $scope.imagenes_exterior = [
-        {
-            nombre: "Exterior 1",
-            url:    "images/portfolio/ext1.jpg",
-        },
-        {
-            nombre: "Exterior 2",
-            url:    "images/portfolio/ext2.jpg",
-        },
-        {
-            nombre: "Exterior 3",
-            url:    "images/portfolio/ext3.jpg",
-        },
-        {
-            nombre: "Exterior 4",
-            url:    "images/portfolio/ext4.jpg",
-        },
-        {
-            nombre: "Exterior 5",
-            url:    "images/portfolio/ext5.jpg",
-        },
-        {
-            nombre: "Exterior 6",
-            url:    "images/portfolio/ext6.jpg",
-        },
-        {
-            nombre: "Exterior 7",
-            url:    "images/portfolio/ext7.jpg",
-        },
-        {
-            nombre: "Exterior 8",
-            url:    "images/portfolio/ext8.jpg",
-        },
-        {
-            nombre: "Exterior 9",
-            url:    "images/portfolio/ext9.jpg",
-        },
-        {
-            nombre: "Exterior 10",
-            url:    "images/portfolio/ext10.jpg",
-        },
-        {
-            nombre: "Exterior 11",
-            url:    "images/portfolio/ext11.jpg",
-        },
-        {
-            nombre: "Exterior 12",
-            url:    "images/portfolio/ext12.jpg",
-        },
-        {
-            nombre: "Exterior 13",
-            url:    "images/portfolio/ext13.jpg",
-        },
-        {
-            nombre: "Exterior 14",
-            url:    "images/portfolio/ext14.jpg",
-        },
-        {
-            nombre: "Exterior 15",
-            url:    "images/portfolio/ext15.jpg",
-        },
-        {
-            nombre: "Exterior 16",
-            url:    "images/portfolio/ext16.jpg",
-        }
-    ];
-    $scope.imagenes_interior = [
-        {
-            nombre: "Interior 1",
-            url:    "images/portfolio/int1.jpg",
-        },
-        {
-            nombre: "Interior 2",
-            url:    "images/portfolio/int2.jpg",
-        },
-        {
-            nombre: "Interior 3",
-            url:    "images/portfolio/int3.jpg",
-        },
-        {
-            nombre: "Interior 4",
-            url:    "images/portfolio/int4.jpg",
-        },
-        {
-            nombre: "Interior 5",
-            url:    "images/portfolio/int5.jpg",
-        },
-        {
-            nombre: "Interior 6",
-            url:    "images/portfolio/int6.jpg",
-        },
-        {
-            nombre: "Interior 7",
-            url:    "images/portfolio/int7.jpg",
-        }
-    ];
-    $scope.imagenes_crecimiento = [
-        {
-            nombre: "Planes de crecimiento 1",
-            url:    "images/portfolio/ft1.jpg",
-        },
-        {
-            nombre: "Planes de crecimiento 2",
-            url:    "images/portfolio/ft2.jpg",
-        },
-        {
-            nombre: "Planes de crecimiento 3",
-            url:    "images/portfolio/ft3.jpg",
-        },
-        {
-            nombre: "Planes de crecimiento 4",
-            url:    "images/portfolio/ft4.jpg",
-        },
-        {
-            nombre: "Planes de crecimiento 5",
-            url:    "images/portfolio/ft5.jpg",
-        },
-        {
-            nombre: "Planes de crecimiento 6",
-            url:    "images/portfolio/ft6.jpg",
-        },
-        {
-            nombre: "Planes de crecimiento 7",
-            url:    "images/portfolio/ft7.jpg",
-        }
-    ];
-    $scope.imagenes = $scope.imagenes_exterior;
-        // finally, initialize photobox on all retrieved images
-        $('#gallery').photobox('a', { thumbs:true, loop:false }, callback);
-        // using setTimeout to make sure all images were in the DOM, before the history.load() function is looking them up to match the url hash
-        setTimeout(window._photobox.history.load, 2000);
-        function callback(){
-            console.log('callback for loaded content:', this);
-        };
-    //});
-    $scope.cambia_categoria = function( categoria ){
-        switch( categoria ) {
-            case 'exterior':
-                $scope.imagenes = $scope.imagenes_exterior;
-            break;
-            case 'interior':
-                $scope.imagenes = $scope.imagenes_interior;
-            break;
-            case 'crecimiento':
-                $scope.imagenes = $scope.imagenes_crecimiento;
-            break;
-            case 'todas':
-                $scope.imagenes = $scope.imagenes_exterior.concat($scope.imagenes_interior , $scope.imagenes_crecimiento);
-            break;
-            default:
-            break;
-        }
-    };
-};*/

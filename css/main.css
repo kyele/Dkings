@@ -4,7 +4,6 @@
 /*************************
 *******Typography******
 **************************/
-
 body {
   background: #fff;
   font-family: 'Open Sans', sans-serif;
@@ -59,8 +58,6 @@ hr {
   border-top: 1px solid #e5e5e5;
   border-bottom: 1px solid #fff;
 }
-
-
 .btn-primary {
   padding: 8px 20px;
   background: #c52d2f;
@@ -2525,8 +2522,37 @@ shortcodes page css
   margin-left: 15px;
 }
 
+/* Estilos para el Login */
+.cont-login{
+  background-color: black;
+}
+.well{
+    margin-top: 100px;
+    background-color:#fff!important;
+    border-radius:0!important;
+    border:none!important;
+}
 
+.well.login-box {
+    width:300px;
+    margin:16.5% auto;
+}
+.well.login-box legend {
+  font-size:26px;
+  text-align:center;
+  font-weight:300;
+}
+.well.login-box label {
+  font-weight:300;
+  font-size:16px;
+  
+}
+.well.login-box input[type="text"] {
+  box-shadow:none;
+  border-color:#ddd;
+  border-radius:0;
+}
 
-
-
-
+.well.welcome-text{
+    font-size:21px;
+}

@@ -1,0 +1,42 @@
+<section class="cont-login">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well login-box">
+                <form name="login_form" novalidate>
+                    <legend><i>Ingreso al CMS</i></legend>
+                    <div class="form-group" ng-class="{'has-error': login_form.correo.$invalid && login_form.correo.$dirty}">
+                        <label for="username-email">E-mail</label>
+                        <input type="email" name="email" class="form-control" ng-model="login.user.email" id="correo" required>
+                        <p ng-show="login_form.$submitted || login_form.correo.$touched">
+                            <span 
+                                class="red-text"
+                                ng-show="login_form.correo.$error.required">
+                                <strong>El correo es necesario.</strong>
+                            </span>
+                            <span
+                                class="red-text" 
+                                ng-show="login_form.correo.$error.email">
+                                <strong>No es un correo valido.</strong>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': login_form.pass.$invalid && login_form.pass.$dirty}">
+                        <label for="password">Contraseña</label>
+                        <input id="password" placeholder="contraseña" type="password" name="pass" class="form-control" ng-model="login.user.pass"required/>
+                        <p ng-show="login_form.$submitted || login_form.pass.$touched" class="warning">
+                            <span
+                                ng-show="login_form.pass.$error.required"
+                                class="error">
+                                <strong>El pass es necesario.</strong>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="form-group text-center">
+                        <button class="btn btn-danger btn-cancel-action">Cancel</button>
+                        <button class="btn btn-danger btn-success" ng-disabled='login_form.$invalid' ng-click="login.login(user)">Entrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

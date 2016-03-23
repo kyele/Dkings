@@ -30,7 +30,7 @@ class Login extends REST_Controller
                 $email      = $this->input->post( "email" );
                 $password   = $this->input->post( "password" );
                 $loginUser  = $this->Login_model->loginUser( $email , $password );
-                if( ! is_null( $loginUser ) ) {
+                if( $loginUser ) {
                     $usuario_data = array(
                        'IDEmpleado'         => $loginUser[0]["id_usuario"],
                        'Usuario'            => $loginUser[0]["usuario"],

@@ -21,7 +21,7 @@ angular.module( 'appDkings' ,
             .state('pagina' , {
                 url:            '/',
                 templateUrl:    'public/views/pagina//pagina.html'
-            })
+            })            
                 .state('inicio', {
                     parent:         'pagina',
                     url:            '^/index.html',
@@ -108,6 +108,7 @@ angular.module( 'appDkings' ,
 
         'use strict';
         $rootScope.$state = $state;
+        var pagina  = "paginainicioserviciosgaleriapaquetescontacto"
         var cacheSession        = function( email , id_empleado ) {
             sesionesControl.set( "userLogin" , true);
             sesionesControl.set( "email" , email );
@@ -118,7 +119,7 @@ angular.module( 'appDkings' ,
             sesionesControl.unset( "email" );
         };
         $rootScope.$on( '$stateChangeStart' , function( event, toState, toParams, from, fromParams ) {
-            if( authUsers.isLoggedIn( )  != null ) {
+            if ( authUsers.isLoggedIn( )  != null && pagina.indexOf(toState.name) ==-1 ) {
                 if( toState.name == 'login' ) {
                     event.preventDefault();
                     $state.go( 'home' );
@@ -138,7 +139,7 @@ angular.module( 'appDkings' ,
                         }
                     );
                 }
-            } else {
+            } else if ( pagina.indexOf(toState.name) == -1 ) {
                 if( typeof $rootScope.intento == 'undefined' ) {
                     event.preventDefault();
                     $rootScope.intento = true;

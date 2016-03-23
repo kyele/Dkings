@@ -67,6 +67,12 @@ angular.module( 'appDkings' ,
                     url:            '/inicio',
                     templateUrl:    'public/views/cms/inicio.html'
                 })
+                .state('categoria_list' , {
+                    parent:         'cms',
+                    url:            '/categorias',
+                    templateUrl:    'public/views/cms/categorias_list.html',
+                    controller:     'mainCtrl',
+                })
 
     }
 ])

@@ -10,7 +10,9 @@ body {
   color:#4e4e4e;
   line-height: 22px;
 }
-
+.main-app {
+  min-height: 550px;
+}
 h1,
 h2,
 h3,

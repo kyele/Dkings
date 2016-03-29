@@ -1,0 +1,28 @@
+<section class="container">
+	<div class="row">
+		<h1>Nueva Imagen</h1>
+		<div class="panel panel-primary">
+		 	<div class="panel-heading">
+		    	<h3 class="panel-title">Añade una imagen para tus imagenes</h3>
+	  		</div>
+		  	<div class="panel-body">
+		    	<form action="" name="galeria_form" novalidate>
+					<div class="col-md-6 form-group" ng-class="{'has-error': galeria_form.nombre.$invalid && galeria_form.nombre.$dirty}">
+                        <label>Nombre imagen <span class="text-danger">* </span>:</label>
+                        <input class="form-control" placeholder="Nombre de la imagen" name="nombre" ng-model="imagen.nombre_imagen" required>
+                        <p ng-show="galeria_form.nombre.$invalid && galeria_form.nombre.$dirty" class="help-block">El nombre es requerido</p>
+                    </div>
+                    <div class="form-group col-md-6 col-xs-12" ng-class="{'has-error': galeria_form.descripcion.$invalid && galeria_form.descripcion.$dirty}">
+                    	<label for="">Descripcion imagen <span class="text-danger">* </span>:</label></label>
+                    	<textarea class="form-control" rows="3" placeholder="Escriba una pequeña descripcion de esta imagen" name="descripcion" ng-model="imagen.descripcion_imagen"  required></textarea>
+                    	<p ng-show="galeria_form.descripcion.$invalid && galeria_form.descripcion.$dirty" class="help-block">La descripcion es requerida</p>
+                    </div>
+		    	</form>
+		  	</div>
+		  	<div class="panel-footer">
+		  		<button ng-if="$state.includes('**.galeria_create.**')" type="submit" class="btn btn-success" ng-disabled='galeria_form.$invalid' ng-click="producto.agregar()">Guardar</button>
+                <button ng-if="$state.includes('**.galeria_edit.**')" type="submit" class="btn btn-warning" ng-disabled='galeria_form.$invalid' ng-click="imagen.actualizar()">Actualizar</button>
+		  	</div>
+		</div>
+	</div>
+</section>

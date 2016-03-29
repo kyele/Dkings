@@ -67,11 +67,26 @@ angular.module( 'appDkings' ,
                     url:            '/inicio',
                     templateUrl:    'public/views/cms/inicio.html'
                 })
+                .state('categoria_create' , {
+                    parent:         'cms',
+                    url:            '/nueva_categoria',
+                    templateUrl:    'public/views/cms/categorias_form.html',
+                    controller:     'categoriasCreateCtrl',
+                    controllerAs:   'categoria'
+                })
                 .state('categoria_list' , {
                     parent:         'cms',
                     url:            '/categorias',
                     templateUrl:    'public/views/cms/categorias_list.html',
-                    controller:     'mainCtrl',
+                    controller:     'CategoriasListCtrl',
+                    controllerAs:   'categoria'
+                })
+                .state('galeria_create' , {
+                    parent:         'cms',
+                    url:            '/nueva_imagen',
+                    templateUrl:    'public/views/cms/galeria_form.html',
+                    controller:     'ProductosCreateCtrl',
+                    controllerAs:   'producto'
                 })
 
     }

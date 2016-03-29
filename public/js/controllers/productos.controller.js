@@ -17,31 +17,38 @@ ProductosCreateCtrl.$inject = [ '$state' , '$scope' , 'productosServices' , 'upl
 
 function ProductosCreateCtrl( $state , $scope , productosServices , upload ) {
 
-    var producto            = this;
-    producto.productos      = [];
-    producto.categorias     = [];
-    producto.imagen_destino = 'images/galeria/';
-
-    var datos               = {};
-    datos.datos_form        = {};
+    var producto                        = this;
+    producto.productos                  = [];
+    producto.categorias                 = [];
+    producto.imagen_destino             = 'images/gallery/';
+    producto.imagen_destino_miniatura   = 'images/gallery/miniatura/';
+    var datos                           = {};
+    datos.datos_form                    = {};
+    $(":file").filestyle({iconName: "glyphicon-inbox"});
+    $(":file").filestyle('placeholder', 'Selecciona una imagen');
 
     producto.uploadFile = function( ) {
-
-        datos.datos_form.nombre             = producto.nombre_producto;
-        datos.datos_form.descripcion        = producto.descripcion_producto;
-        datos.datos_form.url_imagen         = producto.imagen_destino+producto.image_name;
-        datos.datos_form.categorias         = [];
-        datos.datos_form.categorias         = datos.datos_form.categorias.concat( producto.categorias );
-        var file                            = producto.file;
-
+        datos.datos_form.nombre                 = producto.nombre_producto;
+        datos.datos_form.url_imagen             = producto.imagen_destino+producto.image_name;
+        datos.datos_form.url_imagen_miniatura   = producto.imagen_destino_miniatura+producto.image_name;
+        datos.datos_form.categorias             = [];
+        datos.datos_form.categorias             = datos.datos_form.categorias.concat( producto.categorias );
+        var file                                = producto.file;
+        //console.log(file);
         productosServices.agregar_producto( {producto:datos.datos_form} ,
             function( data ) {
-                
+                if( data.response ) {
+                    if (file) {
+                          producto.PromesaImagen( data.response );
+                    }else{
+                        swal("Guardado!", "Se ha guardado correctamente la informacion!", "success");
+                        //$state.go( 'empleado_single' , { id: id_empleado } );
+                    };      
+                }
             }, function( data ) {
-                console.log( data );
+                swal( "", "Algo ha salido mal, intente mas tarde!" , "error" );
             }
         );
-        upload.uploadFile( file , producto.imagen_destino ).then(function(res){});        
     };
 
     producto.agrega_categoria = function( id_categoria ) {
@@ -52,16 +59,6 @@ function ProductosCreateCtrl( $state , $scope , productosServices , upload ) {
             producto.categorias.push( id_categoria );
         }
     }
-    /**
-    *   This function call data of the customers.
-    *   @author     Cesar Herrera <kyele936@gmail.com>
-    *   @since      13/29/2015
-    *   @version    1
-    *   @access     public
-    *   @param      galerias.datos_form
-    *   @return
-    *   @example    galeria.agregar( .... )
-    */
     producto.listar = function( ) {
         productosServices.mostrar(
             function( data ) {
@@ -72,7 +69,20 @@ function ProductosCreateCtrl( $state , $scope , productosServices , upload ) {
             }
         );
     }
-
+    producto.PromesaImagen = function( id_producto ) {
+        upload.uploadFile( producto.file  , producto.imagen_destino )
+        .then(function(res) {
+            if ( res.response === 'Imagen guardada correctamente' ) {
+                swal("Guardado!", "Se ha guardado correctamente la informacion!", "success");
+                $state.go( 'galeria_list' , { id: id_producto } );
+            } else {
+                swal("Guardado!", "Se ha guardado correctamente la informacion! , pero la imagen no pudo ser guardada", "warning");
+                $state.go( 'galeria_list' );
+            }
+        }, function(error) {
+            swal( "Error", "Algo ha salido mal, intente mas tarde!" , "warning" );
+        });
+    }
     $("#file").on("change", function() {
         var image = new Image();
         $("#vista_previa").html('');
@@ -90,11 +100,10 @@ function ProductosCreateCtrl( $state , $scope , productosServices , upload ) {
                 $("#vista_previa").append("<p style='color: red'> El archivo"+name+" no es un archivo permitido (jpg, jpeg, png, gif)</p>");
             } else {
                 var objeto_url = window.URL.createObjectURL(archivos[x]);
-                $("#vista_previa").append("<img src="+objeto_url+" class='materialboxed responsive-img'>"); 
+                $("#vista_previa").append("<img src="+objeto_url+" width='250' height='250'>"); 
             }
         }
     })
-
     producto.listar();
 };
 /**

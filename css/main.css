@@ -1653,7 +1653,10 @@ ul.social_icons li  a i{
 /**************************
 ********* Pricing Table CSS *
 **************************/
-
+.table-responsive {
+    border: 1px solid #dedede;
+    padding: 0px !important;
+}
 .pricing_heading {
   margin-top: 120px
 }

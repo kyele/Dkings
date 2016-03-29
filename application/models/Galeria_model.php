@@ -17,14 +17,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 			$query = $this->db->select( "*" )->from( "imagenes" )->get( );
 			if( $query->num_rows( ) > 0 ) {
-				return $query->result_array( );
+				//var_dump($query->result_array());
+				//for( $i=0 ; $i < $query->num_rows() ; $i++ ) {
+					 //= $this->db->select( "*" )->from( "imagenes" )->where( "id" , $id )->get( );
+					$numbers = array ( "categorias"=>( "id"=>1) );
+					$fruits = array ( "fruits"  => array ( "a" => "orange",
+                                       "b" => "banana",
+                                       "c" => "apple"
+                                     ),
+				      	            "holes"   => array (      "first",
+				                                       5 => "second",
+				                                            "third"
+				                                     ),
+					);
+					$fruits = array_merge( $fruits , $numbers );
+					var_dump($fruits);
+					//var_dump($numbers);
+					//array_push( $query->result_array()[$i] , "newkey"=>"newvalue" );
+					//$query->result_array()[$i]=array("newkey"=>"newvalue") + $query->result_array()[$i]; 
+				//}
+				var_dump($query->result_array());
 			}
 			return NULL;
 		}		
 		public function save_categoria_producto( $categorias , $id_producto )
 		{
 			foreach ( $categorias as $categoria ) {
-				$this->db->set( $this->_setCategoriaProducto( $id_producto , $categoria ) )->insert( "producto_categorias" );
+				$this->db->set( $this->_setCategoriaProducto( $id_producto , $categoria ) )->insert( "imagenes_categorias" );
 			}
 			
 			/*if ( $this->db->affected_rows( ) === 1 ) {
@@ -39,7 +58,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 				$id_producto = $this->db->insert_id( );
 				foreach ( $producto["categorias"] as $categoria ) {
-					$this->db->set( $this->_setCategoriaProducto( $id_producto , $categoria ) )->insert( "producto_categorias" );
+					$this->db->set( $this->_setCategoriaProducto( $id_producto , $categoria ) )->insert( "imagenes_categorias" );
 				}/*
 				$file = $img_producto["file"]["name"];
 				if(!is_dir("files/"))
@@ -101,16 +120,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		private function _setProducto( $producto )
 		{
 			return array(
-				"nombre_imagen"		=> $producto["nombre"],
-				"descripcion" 		=> $producto["descripcion"],
-				"url_imagen" 		=> $producto["url_imagen"],
-				"status_imagen" 	=> 1,
+				"nombre_imagen"			=> $producto["nombre"],
+				"url_imagen" 			=> $producto["url_imagen"],
+				"url_imagen_miniatura" 	=> $producto["url_imagen_miniatura"],
+				"status_imagen" 		=> 1,
 			);
 		}
 		private function _setCategoriaProducto( $producto_id , $categoria_id )
 		{
 			return array(
-				"producto_id"		  		=> $producto_id,
+				"imagen_id"		  			=> $producto_id,
 				"categoria_id"		  		=> $categoria_id,				
 			);
 		}

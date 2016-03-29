@@ -88,6 +88,13 @@ angular.module( 'appDkings' ,
                     controller:     'ProductosCreateCtrl',
                     controllerAs:   'producto'
                 })
+                .state('galeria_list' , {
+                    parent:         'cms',
+                    url:            '/imagenes-galeria',
+                    templateUrl:    'public/views/cms/galeria_list.html',
+                    controller:     'ProductosListCtrl',
+                    controllerAs:   'galeria'
+                })
 
     }
 ])
@@ -201,7 +208,6 @@ function mainCtrl() {
             interval: 8000
         });
     });
-
 
     // accordian
     $('.accordion-toggle').on('click', function(){

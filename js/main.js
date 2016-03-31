@@ -21,7 +21,7 @@ jQuery(function($) {'use strict',
 	new WOW().init();
 
 	// portfolio filter
-	$(window).load(function(){'use strict';
+	/*$(window).load(function(){'use strict';
 		var $portfolio_selectors = $('.portfolio-filter >li>a');
 		var $portfolio = $('.portfolio-items');
 		$portfolio.isotope({
@@ -36,7 +36,7 @@ jQuery(function($) {'use strict',
 			$portfolio.isotope({ filter: selector });
 			return false;
 		});
-	});
+	});*/
 
 	// Contact form
 	var form = $('#main-contact-form');
@@ -64,7 +64,7 @@ jQuery(function($) {'use strict',
 	});	
 
 	//Pretty Photo
-	$("a[rel^='prettyPhoto']").prettyPhoto({
+	/*$("a[rel^='prettyPhoto']").prettyPhoto({
 		social_tools: false
-	});	
+	});	*/
 });

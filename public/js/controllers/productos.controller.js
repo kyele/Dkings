@@ -125,8 +125,11 @@ ProductosListCtrl.$inject = [ '$state' , '$scope' , 'productosServices' ];
 
 function ProductosListCtrl( $state , $scope , productosServices ) {
 
-    var galeria         = this;
-    galeria.galerias    = [];
+    var galeria                 = this;
+    galeria.data                = [];
+    galeria.imagenes            = [];
+    galeria.imagenes_filtradas  = [];
+    //var bandera                 = false;
     /**
     *   This function call data of the customers.
     *   @author     Cesar Herrera <kyele936@gmail.com>
@@ -141,17 +144,58 @@ function ProductosListCtrl( $state , $scope , productosServices ) {
         productosServices.listar(
             function( data ) {
                 //console.log(data.response);
-                if( data.response.length != null ) {
-                    galeria.galerias = galeria.galerias.concat( data.response );
+                if( data.response.length    != null ) {
+                    galeria.data            = galeria.data.concat( data.response );
+                    galeria.imagenes        = galeria.data;
                     $scope.$parent.noCargar = false;
                 }
+                console.log(galeria.imagenes);
             }
         );
     }
-
+    galeria.categorias = function( ) {
+        productosServices.mostrar(
+            function( data ) {
+                if( data.response.length > 0 ) {
+                    galeria.categorias    = data.response;
+                    $scope.$parent.noCargar = false;
+                }
+                console.log(galeria.categorias);
+            }
+        );
+    }
     galeria.ordenarPor = function(orden) {
         galeria.ordenSeleccionado = orden;
     };
+    galeria.filtra_categoria = function( id_categoria ) {
+        galeria.imagenes_filtradas = [];
+        for( i = 0 ; i < galeria.data.length ; i++ ) {
+            for( j = 0 ; j < galeria.data[i]["categorias"].length; j++ ) {
+                if( id_categoria == galeria.data[i]["categorias"][j]["categoria_id"] ){
+                    galeria.imagenes_filtradas = galeria.imagenes_filtradas.concat(galeria.data[i]);
+                }
+            }
+        }
+        if( galeria.imagenes_filtradas.length > 0 ) {
+            galeria.imagenes = galeria.imagenes_filtradas;    
+        } else {
+            //console.log('no hay imagenes en esta categoria');
+            //swal("", "No hay imagenes en esta categoria", "warning");
+            swal({  title: "",   
+                    type: "warning",
+                    text: "No hay imagenes en esta categoria",   
+                    timer: 900,   
+                    showConfirmButton: false 
+            });
+        }
+        
+    }
     galeria.listar();
-
+    galeria.categorias();
+    $('#gallery').photobox('a', { thumbs:false, loop:true }, callback);
+    // using setTimeout to make sure all images were in the DOM, before the history.load() function is looking them up to match the url hash
+    setTimeout(window._photobox.history.load, 2000);
+    function callback(){
+        console.log('callback for loaded content:', this);
+    };
 };

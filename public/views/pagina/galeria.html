@@ -1,33 +1,51 @@
 <section id="portfolio">
-    <div class="container">
+    <div class="container" ng-controller="ProductosListCtrl as galeria">
         <div class="center">
            <h2>Portfolio</h2>
            <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut <br> et dolore magna aliqua. Ut enim ad minim veniam</p>
         </div>
     
 
-        <ul class="portfolio-filter text-center">
-            <li><a class="btn btn-default active"   href="" data-filter="*">All Works</a></li>
+        <ul class="portfolio-filter text-center">            
+            
+            <li ng-repeat="categorias in galeria.categorias">
+                <a class="btn btn-default"   href="" ng-click="galeria.filtra_categoria(categorias.id_categoria_producto)">
+                    {{categorias.nombre_categoria}}
+                </a>
+            </li>
+            <!--
+            <li><a class="btn btn-default active"   href="" data-filter="*">Todas</a></li>
             <li><a class="btn btn-default"          href="" data-filter=".bootstrap">Creative</a></li>
             <li><a class="btn btn-default"          href="" data-filter=".html">Photography</a></li>
-            <li><a class="btn btn-default" href="" data-filter=".wordpress">Web Development</a></li>
+            <li><a class="btn btn-default" href="" data-filter=".wordpress">Web Development</a></li>-->
         </ul><!--/#portfolio-filter-->
+        <!--<div class="row">
+            <div class="col-xs-12 col-md-3">
+                <div id="gallery" class="row">
+                    <div class="cont-img" ng-repeat="galeria in galeria.imagenes">
+                        <a href="{{galeria.url_imagen}}" title="{{galeria.nombre_imagen}}">
+                            <img src="{{galeria.url_imagen}}" class="responsive-gallery responsive-img">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>-->
 
         <div class="row">
-            <div class="portfolio-items">
-                <div class="portfolio-item apps col-xs-12 col-sm-4 col-md-3 ejemplo">
+            <div class="portfolio-items" id="gallery">
+                <div class="portfolio-item apps col-xs-12 col-sm-4 col-md-3" ng-repeat="galeria in galeria.imagenes">
                     <div class="recent-work-wrap">
-                        <img class="img-responsive" src="images/portfolio/recent/item1.png" alt="">
+                        <img class="img-responsive" ng-src="{{galeria.url_imagen_miniatura}}" alt="">
                         <div class="overlay">
                             <div class="recent-work-inner">
-                                <h3><a href="#">Business theme</a></h3>
-                                <p>There are many variations of passages of Lorem Ipsum available, but the majority</p>
-                                <a class="preview" href="images/portfolio/full/item1.png" rel="prettyPhoto"><i class="fa fa-eye"></i> View</a>
+                                <h3>{{galeria.nombre_imagen}}</h3>
+                                <!--<p>There are many variations of passages of Lorem Ipsum available, but the majority</p>-->
+                                <a class="preview" href="{{galeria.url_imagen}}" title="{{galeria.nombre_imagen}}"><i class="fa fa-eye"></i> Ver</a>
                             </div> 
                         </div>
                     </div>
-                </div><!--/.portfolio-item-->
-
+                </div>
+                <!--
                 <div class="portfolio-item joomla bootstrap col-xs-12 col-sm-4 col-md-3">
                     <div class="recent-work-wrap">
                         <img class="img-responsive" src="images/portfolio/recent/item2.png" alt="">
@@ -39,21 +57,7 @@
                             </div> 
                         </div>
                     </div>          
-                </div><!--/.portfolio-item-->
-
-                <div class="portfolio-item bootstrap wordpress col-xs-12 col-sm-4 col-md-3">
-                    <div class="recent-work-wrap">
-                        <img class="img-responsive" src="images/portfolio/recent/item3.png" alt="">
-                        <div class="overlay">
-                            <div class="recent-work-inner">
-                                <h3><a href="#">Business theme</a></h3>
-                                <p>There are many variations of passages of Lorem Ipsum available, but the majority</p>
-                                <a class="preview" href="images/portfolio/full/item3.png" rel="prettyPhoto"><i class="fa fa-eye"></i> View</a>
-                            </div> 
-                        </div>
-                    </div>        
-                </div><!--/.portfolio-item-->
-
+                </div>
                 <div class="portfolio-item joomla wordpress apps col-xs-12 col-sm-4 col-md-3">
                     <div class="recent-work-wrap">
                         <img class="img-responsive" src="images/portfolio/recent/item4.png" alt="">
@@ -65,8 +69,7 @@
                             </div> 
                         </div>
                     </div>           
-                </div><!--/.portfolio-item-->
-      
+                </div>      
                 <div class="portfolio-item joomla html bootstrap col-xs-12 col-sm-4 col-md-3">
                     <div class="recent-work-wrap">
                         <img class="img-responsive" src="images/portfolio/recent/item5.png" alt="">
@@ -78,8 +81,7 @@
                             </div> 
                         </div>
                     </div>      
-                </div><!--/.portfolio-item-->
-
+                </div>
                 <div class="portfolio-item wordpress html apps col-xs-12 col-sm-4 col-md-3">
                     <div class="recent-work-wrap">
                         <img class="img-responsive" src="images/portfolio/recent/item6.png" alt="">
@@ -91,8 +93,7 @@
                             </div> 
                         </div>
                     </div>         
-                </div><!--/.portfolio-item-->
-
+                </div>
                 <div class="portfolio-item wordpress html col-xs-12 col-sm-4 col-md-3">
                     <div class="recent-work-wrap">
                         <img class="img-responsive" src="images/portfolio/recent/item7.png" alt="">
@@ -104,8 +105,7 @@
                             </div> 
                         </div>
                     </div>          
-                </div><!--/.portfolio-item-->
-
+                </div>
                 <div class="portfolio-item wordpress html bootstrap col-xs-12 col-sm-4 col-md-3">
                     <div class="recent-work-wrap">
                         <img class="img-responsive" src="images/portfolio/recent/item8.png" alt="">
@@ -117,7 +117,7 @@
                             </div> 
                         </div>
                     </div>          
-                </div><!--/.portfolio-item-->
+                </div> -->
             </div>
         </div>
     </div>

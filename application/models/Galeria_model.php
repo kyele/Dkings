@@ -9,34 +9,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		public function get( $id = NULL ) {
 			if( ! is_null( $id ) ) {
-				$query = $this->db->select( "*" )->from( "imagenes" )->where( "id" , $id )->get( );
+				$query = $this->db 	->select( "*" )	
+									->from( "imagenes" )
+									->where( "id_imagen" , $id )
+									->get( );
 				if( $query->num_rows( ) === 1 ) {
 					return $query->row_array( );
 				}
 				return NULL;
 			}
-			$query = $this->db->select( "*" )->from( "imagenes" )->get( );
+			$query = $this->db 	->select( "*" )	
+								->from( "imagenes" )
+								//->join( "imagenes_categorias", 'imagenes_categorias.imagen_id = imagenes.id_imagen' )
+								->get( );
 			if( $query->num_rows( ) > 0 ) {
-				//var_dump($query->result_array());
-				//for( $i=0 ; $i < $query->num_rows() ; $i++ ) {
-					 //= $this->db->select( "*" )->from( "imagenes" )->where( "id" , $id )->get( );
-					$numbers = array ( "categorias"=>( "id"=>1) );
-					$fruits = array ( "fruits"  => array ( "a" => "orange",
-                                       "b" => "banana",
-                                       "c" => "apple"
-                                     ),
-				      	            "holes"   => array (      "first",
-				                                       5 => "second",
-				                                            "third"
-				                                     ),
-					);
-					$fruits = array_merge( $fruits , $numbers );
-					var_dump($fruits);
-					//var_dump($numbers);
-					//array_push( $query->result_array()[$i] , "newkey"=>"newvalue" );
-					//$query->result_array()[$i]=array("newkey"=>"newvalue") + $query->result_array()[$i]; 
-				//}
-				var_dump($query->result_array());
+				for( $i=0 ; $i < $query->num_rows() ; $i++ ) {
+					 $categorias = $this->db->select( 'imagenes_categorias.categoria_id , categoria_productos.nombre_categoria' )
+					 						->join( "categoria_productos" , 'categoria_productos.id_categoria_producto = imagenes_categorias.categoria_id' )
+					 						->from( "imagenes_categorias" )
+					 						->where( "imagen_id" , $query->result_array()[$i]["id_imagen"] )->get( );
+					 $cat = [];
+					 $cat = $categorias->result_array();
+					 $imagenes[$i] = [
+					 	"id_imagen"    			=> $query->result_array()[$i]["id_imagen"],
+					 	"nombre_imagen" 		=> $query->result_array()[$i]["nombre_imagen"],
+					 	"url_imagen" 			=> $query->result_array()[$i]["url_imagen"],
+					 	"url_imagen_miniatura" 	=> $query->result_array()[$i]["url_imagen_miniatura"],
+					 	"status_imagen" 		=> $query->result_array()[$i]["status_imagen"],
+					 	"categorias"			=> $cat
+					 ];
+				}
+				//var_dump($imagenes);
+				return $imagenes;
 			}
 			return NULL;
 		}		

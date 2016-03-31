@@ -21,7 +21,7 @@ angular.module( 'appDkings' ,
             .state('pagina' , {
                 url:            '/',
                 templateUrl:    'public/views/pagina//pagina.html'
-            })
+            })            
                 .state('inicio', {
                     parent:         'pagina',
                     url:            '^/index.html',
@@ -67,6 +67,34 @@ angular.module( 'appDkings' ,
                     url:            '/inicio',
                     templateUrl:    'public/views/cms/inicio.html'
                 })
+                .state('categoria_create' , {
+                    parent:         'cms',
+                    url:            '/nueva_categoria',
+                    templateUrl:    'public/views/cms/categorias_form.html',
+                    controller:     'categoriasCreateCtrl',
+                    controllerAs:   'categoria'
+                })
+                .state('categoria_list' , {
+                    parent:         'cms',
+                    url:            '/categorias',
+                    templateUrl:    'public/views/cms/categorias_list.html',
+                    controller:     'CategoriasListCtrl',
+                    controllerAs:   'categoria'
+                })
+                .state('galeria_create' , {
+                    parent:         'cms',
+                    url:            '/nueva_imagen',
+                    templateUrl:    'public/views/cms/galeria_form.html',
+                    controller:     'ProductosCreateCtrl',
+                    controllerAs:   'producto'
+                })
+                .state('galeria_list' , {
+                    parent:         'cms',
+                    url:            '/imagenes-galeria',
+                    templateUrl:    'public/views/cms/galeria_list.html',
+                    controller:     'ProductosListCtrl',
+                    controllerAs:   'galeria'
+                })
 
     }
 ])
@@ -108,6 +136,7 @@ angular.module( 'appDkings' ,
 
         'use strict';
         $rootScope.$state = $state;
+        var pagina  = "paginainicioserviciosgaleriapaquetescontacto"
         var cacheSession        = function( email , id_empleado ) {
             sesionesControl.set( "userLogin" , true);
             sesionesControl.set( "email" , email );
@@ -118,7 +147,7 @@ angular.module( 'appDkings' ,
             sesionesControl.unset( "email" );
         };
         $rootScope.$on( '$stateChangeStart' , function( event, toState, toParams, from, fromParams ) {
-            if( authUsers.isLoggedIn( )  != null ) {
+            if ( authUsers.isLoggedIn( )  != null && pagina.indexOf(toState.name) ==-1 ) {
                 if( toState.name == 'login' ) {
                     event.preventDefault();
                     $state.go( 'home' );
@@ -138,7 +167,7 @@ angular.module( 'appDkings' ,
                         }
                     );
                 }
-            } else {
+            } else if ( pagina.indexOf(toState.name) == -1 ) {
                 if( typeof $rootScope.intento == 'undefined' ) {
                     event.preventDefault();
                     $rootScope.intento = true;
@@ -180,7 +209,6 @@ function mainCtrl() {
         });
     });
 
-
     // accordian
     $('.accordion-toggle').on('click', function(){
         $(this).closest('.panel-group').children().each(function(){
@@ -192,7 +220,7 @@ function mainCtrl() {
     //Initiat WOW JS
     new WOW().init();
     // portfolio filter
-    $(window).load(function(){'use strict';
+    /*$(window).load(function(){'use strict';
         var $portfolio_selectors = $('.portfolio-filter >li>a');
         var $portfolio = $('.portfolio-items');
         $portfolio.isotope({
@@ -206,7 +234,7 @@ function mainCtrl() {
             $portfolio.isotope({ filter: selector });
             return false;
         });
-    });
+    });*/
 
     // Contact form
     var form = $('#main-contact-form');
@@ -232,7 +260,7 @@ function mainCtrl() {
     }); 
 
     //Pretty Photo
-    $("a[rel^='prettyPhoto']").prettyPhoto({
+    /*$("a[rel^='prettyPhoto']").prettyPhoto({
         social_tools: false
-    });
+    });*/
 }

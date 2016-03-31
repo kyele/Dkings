@@ -1,4 +1,4 @@
-<header id="header">
+<header id="header" >
     <nav class="navbar navbar-inverse" role="banner">
         <div class="container">
             <div class="navbar-header">
@@ -18,12 +18,12 @@
                         <a ui-sref="#" class="dropdown-toggle" data-toggle="dropdown">Categorias <i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             <li ui-sref-active="active">
-                                <a ui-sref="blog-item.html">
+                                <a ui-sref="categoria_create">
                                     Nueva Categoria
                                 </a>
                             </li>
                             <li ui-sref-active="active">
-                                <a ui-sref="pricing.html">
+                                <a ui-sref="categoria_list">
                                     Ver Categorias
                                 </a>
                             </li>
@@ -33,23 +33,28 @@
                         <a ui-sref="#" class="dropdown-toggle" data-toggle="dropdown">Galeria <i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
                             <li ui-sref-active="active">
-                                <a ui-sref="blog-item.html">
+                                <a ui-sref="galeria_create">
                                     Nueva Imagen
                                 </a>
                             </li>
                             <li ui-sref-active="active">
-                                <a ui-sref="pricing.html">
+                                <a ui-sref="galeria_list">
                                     Ver Imagenes
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li ng-controller="logoutCtrl as logout">
+                        <a ng-click="logout.logout()">Salir <i class="fa fa-sign-out"></i></a>
                     </li>
                 </ul>
             </div>
         </div><!--/.container-->
     </nav><!--/nav-->
 </header><!--/header-->
-<div ui-view></div>
+<div ui-view class="main-app">
+    
+</div>
 <footer id="footer" class="midnight-blue">
     <div class="container">
         <div class="row">

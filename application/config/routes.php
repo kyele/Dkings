@@ -61,7 +61,7 @@ $route["login"]["get"]                  = "login/logoutUser";
 $route["galeria"]["get"]                = "galeria/index";
 $route["galeria"]["post"]               = "galeria/index";
 
-$route["imagenes"]["post"]              = "imagenes/index";
+$route["files"]["post"]              	= "files/index";
 
 $route["categorias"]["get"]             = "categorias/index";
 $route["categorias"]["post"]            = "categorias/index";

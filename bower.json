@@ -26,6 +26,7 @@
     "ng-lodash": "^0.4.0",
     "angular-photoswipe": "*",
     "photobox": "^1.9.9",
-    "trianglify": "^0.4.0"
+    "trianglify": "^0.4.0",
+    "bootstrap-filestyle": "^1.2.1"
   }
 }

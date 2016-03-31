@@ -64,7 +64,7 @@ function authUsers( $http , $rootScope , $location , $state , sesionesControl , 
                 } else if( data.respuesta === "incomplete_form" ){
                     var mensaje = data.errors;
                     swal( "", mensaje , "error" );
-                } else if( data.respuesta == false ){
+                } else if( data.respuesta == "failed" ){
                     swal( "", "Su contraseña o nombre de usuario son incorrectos", "warning" );
                 }
             }).error( function() {

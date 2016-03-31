@@ -1,0 +1,30 @@
+<section class="container">
+	<section class="row">
+		<h1>Listado de Categorias</h1>
+        <div class="table-responsive col-xs-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="center">Nombre</th>
+                        <th class="center">Descripción</th>
+                        <th class="center">Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="categorias in categoria.categorias">
+                        <th class="center">{{categorias.nombre_categoria}}</th>
+                        <th class="center">{{categorias.descripcion_categoria}}</th>
+                        <th clasS="center"><a href="" class="btn btn-danger"><i class="fa fa-pencil-square-o"></i></a></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+	</section>
+    <br>   
+    <div class="row">
+        <div class="col-xs-12">
+            <button type="button" class="btn btn-warning" ui-sref="categoria_create">Nueva Categoria</button>
+        </div>
+    </div>
+    <br>
+</section>

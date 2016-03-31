@@ -1,0 +1,37 @@
+<section class="container">
+	<div class="row">
+		<h1>Nueva Imagen</h1>
+		<div class="panel panel-primary">
+		 	<div class="panel-heading">
+		    	<h3 class="panel-title">Añade una imagen para tus imagenes</h3>
+	  		</div>
+		  	<div class="panel-body">
+		    	<form action="" name="galeria_form" novalidate>
+		    		<label class="col-md-3">Nombre imagen <span class="text-danger">* </span>:</label>
+					<div class="col-md-9 form-group" ng-class="{'has-error': galeria_form.nombre.$invalid && galeria_form.nombre.$dirty}">
+                        <input class="form-control" placeholder="Nombre de la imagen" name="nombre" ng-model="producto.nombre_producto" required>
+                        <p ng-show="galeria_form.nombre.$invalid && galeria_form.nombre.$dirty" class="help-block">El nombre es requerido</p>
+                    </div>
+                    <label class="col-md-3">Categorias <span class="text-danger">* </span>:</label>
+                    <div class="col-md-9 form-group">
+                    	<label class="checkbox-inline" ng-repeat="productos in producto.productos" for="{{productos.id_categoria_producto}}">
+						  <input ng-click="producto.agrega_categoria(productos.id_categoria_producto)" type="checkbox" id="{{productos.id_categoria_producto}}">{{productos.nombre_categoria}}
+						</label>
+                    </div>
+                    <label class="col-md-3">Selecciona una imagen:</label>
+                    <div class="col-md-9 form-group">
+                    	<input id="file" type="file" name="file" class="filestyle" data-buttonName="btn-primary" uploader-model="producto.file" archivos="producto.imagen">
+                    </div>
+                  	<div class="col-md-12">
+						<a href="#" class="thumbnail" id="vista_previa">
+						</a>
+					</div>
+		    	</form>
+		  	</div>
+		  	<div class="panel-footer">
+		  		<button ng-if="$state.includes('**.galeria_create.**')" type="submit" class="btn btn-success" ng-disabled='galeria_form.$invalid' ng-click="producto.uploadFile()">Guardar</button>
+                <button ng-if="$state.includes('**.galeria_edit.**')" type="submit" class="btn btn-warning" ng-disabled='galeria_form.$invalid' ng-click="imagen.actualizar()">Actualizar</button>
+		  	</div>
+		</div>
+	</div>
+</section>
